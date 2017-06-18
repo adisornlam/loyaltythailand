@@ -1,0 +1,245 @@
+<link href="<?php echo base_url(); ?>assets/backend/js/plugins/jasny-bootstrap/css/jasny-bootstrap.min.css" rel="stylesheet">
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header"><?php echo $title; ?></h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <ul class="breadcrumb">
+            <?php foreach ($breadcrumbs as $key => $val) { ?>
+                <?php if ($val === reset($breadcrumbs)) { ?>
+                    <li><a href="<?php echo base_url() . index_page() . $val; ?>"><i class="icon-home"></i> <?php echo $key; ?></a></li>
+                <?php } elseif ($val === end($breadcrumbs)) { ?>
+                    <li class="active"><?php echo $key; ?></li>
+                <?php } else { ?>
+                    <li><a href="<?php echo base_url() . index_page() . $val; ?>"> <?php echo $key; ?></a></li>
+                <?php } ?>
+            <?php } ?>
+        </ul>
+    </div>
+</div>
+<form class="form-horizontal" role="form" id="form-add" method="post" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-body"> 
+                    <div class="form-group">
+                        <label for="prod_code" class="col-sm-2 control-label">รหัสสินค้า</label>
+                        <div class="col-sm-3">
+                            <?php echo form_input('prod_code', $item->prod_code, 'class="form-control" id="prod_code"'); ?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="title" class="col-sm-2 control-label">ชื่อสินค้า</label>
+                        <div class="col-sm-5">
+                            <?php echo form_input('title', $item->title, 'class="form-control" id="title"'); ?>
+                        </div>
+                    </div>                    
+                    <div class="form-group">
+                        <label for="cat_id" class="col-sm-2 control-label">หมวดหมู่</label>
+                        <div class="col-sm-4">
+                            <?php echo form_dropdown('cat_id', $category, $cat_root_id, 'class="form-control" id="cat_id"'); ?>
+                        </div>
+                    </div>
+                    <div class="form-group" style="display: none;">
+                        <label for="sub1" class="col-sm-2 control-label">&nbsp;</label>
+                        <div class="col-sm-4">
+                            <select name="cat_sub_1" id="cat_sub_1" class="form-control">
+                                <option selected="selected" value=""></option>                            
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="short_desc" class="col-sm-2 control-label">คำอธิบายย่อ</label>
+                        <div class="col-sm-5">
+                            <?php echo form_textarea(array('name' => 'short_desc', 'row' => 5, 'class' => 'form-control', 'id' => 'short_desc', 'value' => $item->short_desc)); ?>
+                        </div>
+                    </div>     
+                    <div class="form-group last">
+                        <label class="control-label col-md-2">รูปปก</label>
+                        <div class="col-md-10">
+                            <div class="fileinput fileinput-new" data-provides="fileinput">
+                                <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
+                                    <img src="<?php echo ($item->img_cover != NULL ? base_url() . $item->img_cover : 'http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image'); ?>" alt="" />
+                                </div>
+                                <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
+                                <div>
+                                    <span class="btn btn-default btn-file">
+                                        <span class="fileinput-new">Select image</span><span class="fileinput-exists">Change</span>
+                                        <input type="file" name="photo0"></span>
+                                    <input type="hidden" name="img_cover_hidden" value="<?php echo $item->img_cover; ?>" />
+                                    <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="stock" class="col-sm-2 control-label">รูปสินค้า</label>
+                        <div class="col-sm-2">
+                            <?php echo form_upload('photo1', null, ' id="photo1"'); ?>
+                            <img src="<?php echo ($item->photo1 != NULL ? base_url() . $item->photo1 : 'http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image'); ?>" alt="" height="150" />
+                            <?php echo form_hidden('photo1_hidden', $item->photo1); ?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="stock" class="col-sm-2 control-label">&nbsp;</label>
+                        <div class="col-sm-2">
+                            <?php echo form_upload('photo2', null, ' id="photo2"'); ?>
+                            <img src="<?php echo ($item->photo2 != NULL ? base_url() . $item->photo2 : 'http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image'); ?>" alt="" height="150" />
+                            <?php echo form_hidden('photo2_hidden', $item->photo2); ?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="stock" class="col-sm-2 control-label">&nbsp;</label>
+                        <div class="col-sm-2">
+                            <?php echo form_upload('photo3', null, ' id="photo3"'); ?>
+                            <img src="<?php echo ($item->photo3 != NULL ? base_url() . $item->photo3 : 'http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image'); ?>" alt="" height="150" />
+                            <?php echo form_hidden('photo3_hidden', $item->photo3); ?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="stock" class="col-sm-2 control-label">&nbsp;</label>
+                        <div class="col-sm-2">
+                            <?php echo form_upload('photo4', null, ' id="photo4"'); ?>
+                            <img src="<?php echo ($item->photo4 != NULL ? base_url() . $item->photo4 : 'http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image'); ?>" alt="" height="150" />
+                            <?php echo form_hidden('photo4_hidden', $item->photo4); ?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="stock" class="col-sm-2 control-label">&nbsp;</label>
+                        <div class="col-sm-2">
+                            <?php echo form_upload('photo5', null, ' id="photo5"'); ?>
+                            <img src="<?php echo ($item->photo5 != NULL ? base_url() . $item->photo5 : 'http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image'); ?>" alt="" height="150" />
+                            <?php echo form_hidden('photo5_hidden', $item->photo5); ?>
+                        </div>
+                    </div>                    
+                    <div class="form-group">
+                        <label for="stock" class="col-sm-2 control-label">จำนวนสินค้า</label>
+                        <div class="col-sm-2">
+                            <?php echo form_input('stock', $item->stock, 'class="form-control" id="stock"'); ?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="price" class="col-sm-2 control-label">ราคา</label>
+                        <div class="col-sm-2">
+                            <?php echo form_input('price', $item->price, 'class="form-control" id="price"'); ?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <div class="checkbox">
+                                <label>
+                                    <?php echo form_checkbox('disabled', 'active', ($item->disabled == 0 ? TRUE : FALSE)); ?> เปิดใช้งาน
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="long_desc" class="col-sm-2 control-label">รายละเอียด</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control ckeditor" name="long_desc" id="long_desc" rows="6"><?php echo $item->long_desc; ?></textarea>
+                        </div>
+                    </div>   
+                    <div class="form-group">
+                        <label for="description" class="col-sm-2 control-label">SEO Description</label>
+                        <div class="col-sm-5">
+                            <?php echo form_input('description', $item->description, 'class="form-control" id="description"'); ?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="keywords" class="col-sm-2 control-label">SEO Keywords</label>
+                        <div class="col-sm-5">
+                            <?php echo form_input('keywords', $item->keywords, 'class="form-control" id="keywords"'); ?>
+                        </div>
+                    </div>
+                </div>    
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div class="panel-body">
+                <div class="text-center">
+                    <button type="button" id="btnSave" class="btn btn-primary btn-lg"> บันทึกการเปลี่ยนแปลง </button>                 
+                </div>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" name="id" value="<?php echo $item->id; ?>" />
+</form>
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/backend/js/plugins/ckeditor/ckeditor.js"></script>
+<script src="<?php echo base_url(); ?>assets/backend/js/plugins/jasny-bootstrap/js/jasny-bootstrap.min.js"></script>
+<script src="<?php echo base_url(); ?>assets/backend/js/jquery.form.js"></script>
+<script type="text/javascript">
+    $(function () {
+        var edit_category = <?php echo isset($cat_root_id) ? $cat_root_id : 0; ?>;
+        var edit_sub1 = <?php echo isset($item->cat_id) ? $item->cat_id : 0; ?>;
+        CKEDITOR.replace('long_desc');
+        var options = {
+            url: base_url + index_page + 'products/backend/result_product/edit',
+            success: showResponse
+        };
+        $('#btnSave').click(function () {
+            $(this).attr('disabled', 'disabled');
+            $(this).after('&nbsp;<span id="spinner_loading"><i class="fa fa-spinner fa-spin"></i>&nbsp;&nbsp;Loading...</span>');
+            for (instance in CKEDITOR.instances)
+                CKEDITOR.instances.long_desc.updateElement();
+            $('#form-add').ajaxSubmit(options);
+            return false;
+        });
+
+        if ($('#cat_id').val()) {
+            if (edit_sub1 > 0) {
+                $('#cat_sub_1').parent().parent().show();
+                $.get(base_url + index_page + 'products/backend/category/get_sub/' + edit_category,
+                        function (data) {
+                            var as = JSON.parse(data);
+                            if (as) {
+                                var sub1 = $('#cat_sub_1');
+                                sub1.empty();
+                                $.each(as, function (index, element) {
+                                    var sub1_select = (index === '' + edit_sub1 + '' ? "selected" : "");
+                                    sub1.append("<option value='" + index + "' " + sub1_select + ">" + element + "</option>");
+                                });
+                            }
+                        });
+            }
+        }
+    });
+    function showResponse(response, statusText, xhr, $form) {
+        var as = JSON.parse(response);
+        if (as.error.status === false) {
+            $('#spinner_loading').hide();
+            $('form .form-group').removeClass('has-error');
+            $('form .form-group .help-block').remove();
+            $.each(as.error.message, function (key, value) {
+                if (key === 'img_cover') {
+                    $('#' + key).parent().parent().parent().parent().parent().addClass('has-error');
+                    $('#' + key).parent().parent().after(value);
+                } else {
+                    $('#' + key).parent().parent().addClass('has-error');
+                    $('#' + key).after('<span class="help-block text-danger">' + value + '</span>');
+                }
+            });
+            $('#btnSave').removeAttr('disabled');
+        } else {
+            window.location.href = base_url + index_page + as.error.redirect;
+        }
+    }
+    $('#cat_id').change(function () {
+        $('#cat_sub_1').parent().parent().hide();
+        $('#cat_sub_1').empty();
+        $.get(base_url + index_page + 'products/backend/category/get_sub/' + $(this).val(),
+                function (data) {
+                    var as = JSON.parse(data);
+                    if (as) {
+                        var sub1 = $('#cat_sub_1');
+                        sub1.parent().parent().show();
+                        sub1.empty();
+                        sub1.append("<option value=''>เลือกรายการย่อย</option>");
+                        $.each(as, function (index, element) {
+                            sub1.append("<option value='" + index + "'>" + element + "</option>");
+                        });
+                    }
+                });
+    });
+</script>

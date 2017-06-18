@@ -1,0 +1,25 @@
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed'); ?>
+
+ERROR - 2017-06-03 15:22:43 --> Severity: 8192  --> mysql_pconnect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead D:\xampp\htdocs\loyaltythailand\system\database\drivers\mysql\mysql_driver.php 92
+ERROR - 2017-06-03 15:22:44 --> Severity: Warning  --> mysql_pconnect(): Access denied for user 'root'@'localhost' (using password: YES) D:\xampp\htdocs\loyaltythailand\system\database\drivers\mysql\mysql_driver.php 92
+ERROR - 2017-06-03 15:22:44 --> Unable to connect to the database
+ERROR - 2017-06-03 15:35:31 --> Severity: 8192  --> mysql_pconnect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead D:\xampp\htdocs\loyaltythailand\system\database\drivers\mysql\mysql_driver.php 92
+ERROR - 2017-06-03 15:35:31 --> Severity: Warning  --> mysql_pconnect(): Access denied for user 'root'@'localhost' (using password: YES) D:\xampp\htdocs\loyaltythailand\system\database\drivers\mysql\mysql_driver.php 92
+ERROR - 2017-06-03 15:35:31 --> Unable to connect to the database
+ERROR - 2017-06-03 15:50:14 --> Severity: 8192  --> mysql_pconnect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead D:\xampp\htdocs\loyaltythailand\system\database\drivers\mysql\mysql_driver.php 92
+ERROR - 2017-06-03 15:50:20 --> Severity: 8192  --> mysql_pconnect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead D:\xampp\htdocs\loyaltythailand\system\database\drivers\mysql\mysql_driver.php 92
+ERROR - 2017-06-03 15:50:45 --> Severity: 8192  --> mysql_pconnect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead D:\xampp\htdocs\loyaltythailand\system\database\drivers\mysql\mysql_driver.php 92
+ERROR - 2017-06-03 15:51:43 --> Severity: 8192  --> mysql_pconnect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead D:\xampp\htdocs\loyaltythailand\system\database\drivers\mysql\mysql_driver.php 92
+ERROR - 2017-06-03 15:51:57 --> Severity: 8192  --> mysql_pconnect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead D:\xampp\htdocs\loyaltythailand\system\database\drivers\mysql\mysql_driver.php 92
+ERROR - 2017-06-03 15:52:22 --> Severity: 8192  --> mysql_pconnect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead D:\xampp\htdocs\loyaltythailand\system\database\drivers\mysql\mysql_driver.php 92
+ERROR - 2017-06-03 15:53:45 --> Severity: 8192  --> mysql_pconnect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead D:\xampp\htdocs\loyaltythailand\system\database\drivers\mysql\mysql_driver.php 92
+ERROR - 2017-06-03 16:00:03 --> 404 Page Not Found --> 
+ERROR - 2017-06-03 16:00:10 --> Severity: 8192  --> mysql_pconnect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead D:\xampp\htdocs\loyaltythailand\system\database\drivers\mysql\mysql_driver.php 92
+ERROR - 2017-06-03 16:01:06 --> Severity: 8192  --> mysql_pconnect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead D:\xampp\htdocs\loyaltythailand\system\database\drivers\mysql\mysql_driver.php 92
+ERROR - 2017-06-03 16:01:11 --> Severity: 8192  --> mysql_pconnect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead D:\xampp\htdocs\loyaltythailand\system\database\drivers\mysql\mysql_driver.php 92
+ERROR - 2017-06-03 16:01:32 --> Severity: 8192  --> mysql_pconnect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead D:\xampp\htdocs\loyaltythailand\system\database\drivers\mysql\mysql_driver.php 92
+ERROR - 2017-06-03 16:01:39 --> Severity: 8192  --> mysql_pconnect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead D:\xampp\htdocs\loyaltythailand\system\database\drivers\mysql\mysql_driver.php 92
+ERROR - 2017-06-03 16:01:41 --> Severity: 8192  --> mysql_pconnect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead D:\xampp\htdocs\loyaltythailand\system\database\drivers\mysql\mysql_driver.php 92
+ERROR - 2017-06-03 16:01:44 --> Severity: 8192  --> mysql_pconnect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead D:\xampp\htdocs\loyaltythailand\system\database\drivers\mysql\mysql_driver.php 92
+ERROR - 2017-06-03 16:01:47 --> Severity: 8192  --> mysql_pconnect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead D:\xampp\htdocs\loyaltythailand\system\database\drivers\mysql\mysql_driver.php 92
+ERROR - 2017-06-03 16:01:48 --> Severity: 8192  --> mysql_pconnect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead D:\xampp\htdocs\loyaltythailand\system\database\drivers\mysql\mysql_driver.php 92
