@@ -19,10 +19,9 @@ class Profile extends MX_Controller {
     public function __construct() {
         parent::__construct();
         if (!$this->ion_auth->logged_in()) {
-            redirect('authentication/auth/login', 'refresh');
+            redirect('home/login', 'refresh');
         }
         $this->load->model('users/Users_model');
-        $this->load->model('dashboard/Dashboard_model');
     }
 
     public function index() {
@@ -32,7 +31,7 @@ class Profile extends MX_Controller {
             'item'=>$this->Dashboard_model->get_view($user_id),
             'result_course'=>$this->Dashboard_model->get_course_result($user_id)
             );
-        $this->template->load('master', 'dashboard/parent/index', $data);
+        $this->template->load('master', 'users/member/profile', $data);
     }
 
     function edit(){

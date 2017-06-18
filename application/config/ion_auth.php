@@ -83,11 +83,11 @@ $config['salt_prefix'] = '$2y$';
   | The controller should check this function and act
   | appropriately. If this variable set to 0, there is no maximum.
  */
-$config['site_title'] = "KDC Tutor";       // Site Title, example.com
+$config['site_title'] = "Loyalty Thailand";       // Site Title, example.com
 $config['admin_email'] = "noreply@getsmarteasy.com"; // Admin Email, admin@example.com
-$config['default_group'] = 'student';           // Default group, use name
+$config['default_group'] = 'store';           // Default group, use name
 $config['admin_group'] = 'admin';             // Default administrators group, use name
-$config['identity'] = 'username';             // A database column which is used to login with
+$config['identity'] = 'email';             // A database column which is used to login with
 $config['min_password_length'] = 8;                   // Minimum Required Length of Password
 $config['max_password_length'] = 20;                  // Maximum Allowed Length of Password
 $config['email_activation'] = FALSE;               // Email Activation for registration
@@ -121,15 +121,15 @@ $config['identity_cookie_name'] = 'identity';
  */
 $config['use_ci_email'] = TRUE; // Send Email using the builtin CI email class, if false it will return the code and the identity
 $config['email_config'] = array(
-  'mailtype' => 'html', 
-  'protocol' => 'mail',
-  'smtp_host' => 'mail.getsmarteasy.com',
-  'smtp_port' => 25 , 
-  'smtp_user' => 'noreply@getsmarteasy.com',
-  'smtp_pass' => 'noreply2016',
-  'charset' => 'utf-8', 
-  'newline' => '\r\n'
-  );
+    'mailtype' => 'html',
+    'protocol' => 'mail',
+    'smtp_host' => 'mail.getsmarteasy.com',
+    'smtp_port' => 25,
+    'smtp_user' => 'noreply@getsmarteasy.com',
+    'smtp_pass' => 'noreply2016',
+    'charset' => 'utf-8',
+    'newline' => '\r\n'
+);
 
 /*
   | -------------------------------------------------------------------------
@@ -138,7 +138,7 @@ $config['email_config'] = array(
   | Folder where email templates are stored.
   | Default: auth/
  */
-  $config['email_templates'] = 'authentication/email/';
+$config['email_templates'] = 'authentication/email/';
 
 /*
   | -------------------------------------------------------------------------

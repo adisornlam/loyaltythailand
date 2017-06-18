@@ -34,6 +34,8 @@ $config['base_url'] .= str_replace(basename($_SERVER['SCRIPT_NAME']), "", $_SERV
  */
 $config['index_page'] = 'admin.php/';
 
+$config['site_url'] = $config['base_url'].$config['index_page'];
+
 /*
   |--------------------------------------------------------------------------
   | URI PROTOCOL

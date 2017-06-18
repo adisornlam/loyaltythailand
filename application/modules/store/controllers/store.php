@@ -29,7 +29,7 @@ class Store extends MX_Controller {
                 'web_title' => TITLE,
                 'store_name' => $name
                 );
-            $this->template->load('master', 'store/member/index', $data);
+            $this->template->load('master_member', 'store/member/index', $data);
         }else{
             $data = array(
                 'web_title' => 'Not found store :'.TITLE
@@ -45,7 +45,7 @@ class Store extends MX_Controller {
             'web_title' => TITLE,
             'store_name' => $name
             );
-        $this->template->load('master', 'store/member/aboutus', $data);
+        $this->template->load('master_member', 'store/member/aboutus', $data);
     }
 
 
@@ -55,7 +55,7 @@ class Store extends MX_Controller {
             'web_title' => TITLE,
             'store_name' => $name
             );
-        $this->template->load('master', 'store/member/contactus', $data);
+        $this->template->load('master_member', 'store/member/contactus', $data);
     }
 
     public function cart($name)
@@ -64,7 +64,7 @@ class Store extends MX_Controller {
             'web_title' => TITLE,
             'store_name' => $name
             );
-        $this->template->load('master', 'store/member/cart', $data);
+        $this->template->load('master_member', 'store/member/cart', $data);
     }
 
 }

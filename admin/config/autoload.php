@@ -112,7 +112,7 @@ $autoload['language'] = array();
   |
  */
 
-$autoload['model'] = array('settings/Menu_model', 'common/Common_model', 'authentication/Ion_auth_model');
+$autoload['model'] = array('settings/Menu_model', 'common/Common_model', 'authentication/Ion_auth_model', 'store/Store_model');
 
 
 /* End of file autoload.php */
