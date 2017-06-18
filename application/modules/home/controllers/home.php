@@ -22,29 +22,29 @@ class Home extends MX_Controller {
     }
 
     public function index() {
-        $data = array(
-            'title_web' => TITLE
-        );
+        $data = array();
         $this->template->load('master', 'home/guest/index', $data);
     }
 
     public function aboutus() {
         $data = array(
-            'title_page' => TITLE
+            'title_web' => 'เกี่ยวกับเรา',
+            'title_page' => 'เกี่ยวกับเรา'
         );
         $this->template->load('master', 'home/guest/aboutus', $data);
     }
 
     public function contactus() {
         $data = array(
-            'title_page' => TITLE
+            'title_web' => 'ติดต่อเรา',
+            'title_page' => 'ติดต่อเรา'
         );
         $this->template->load('master', 'home/guest/contactus', $data);
     }
 
     public function register() {
         $data = array(
-            'title_web' => 'สมัครสมาชิก : ' . TITLE,
+            'title_web' => 'สมัครสมาชิก',
             'title_page' => 'สมัครสมาชิก',
         );
         $this->template->load('master', 'home/guest/register', $data);
@@ -52,7 +52,7 @@ class Home extends MX_Controller {
 
     public function login() {
         $data = array(
-            'title_web' => 'เข้าสู่ระบบ : ' . TITLE,
+            'title_web' => 'เข้าสู่ระบบ',
             'title_page' => 'เข้าสู่ระบบ',
         );
         $this->template->load('master', 'home/guest/login', $data);
@@ -60,7 +60,7 @@ class Home extends MX_Controller {
 
     public function forgotpassword() {
         $data = array(
-            'title_web' => 'ขอรหัสผ่านใหม่ : ' . TITLE,
+            'title_web' => 'ขอรหัสผ่านใหม่',
             'title_page' => 'ขอรหัสผ่านใหม่',
         );
         $this->template->load('master', 'home/guest/forgotpassword', $data);

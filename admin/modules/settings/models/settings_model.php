@@ -16,26 +16,21 @@ if (!defined('BASEPATH'))
  */
 class Settings_model extends CI_Model {
 
-    public function get_item($id) {
-        $query = $this->db->get_where('system_config_website', array('id' => $id));
+    public function get_item() {
+        $user_id = $this->ion_auth->user()->row()->id;
+        $query = $this->db->get_where('config_website', array('user_id' => $user_id));
         $row = $query->row();
         return $row;
     }
 
-    function edit() {
+    function edit_save() {
         $data = array(
+            'storename' => trim($this->input->post('storename')),
             'site_name' => trim($this->input->post('site_name')),
             'keywords' => trim($this->input->post('keywords')),
-            'description' => trim($this->input->post('description')),
-            'useragent' => trim($this->input->post('useragent')),
-            'host' => trim($this->input->post('host')),
-            'port' => trim($this->input->post('port')),
-            'from_email' => trim($this->input->post('from_email')),
-            'receive_email' => trim($this->input->post('receive_email')),
-            'username' => trim($this->input->post('username')),
-            'password' => trim($this->input->post('password'))
+            'description' => trim($this->input->post('description'))
         );
-        $this->db->update('system_config_website', $data, array('id' => 1));
+        $this->db->update('config_website', $data, array('user_id' => $this->input->post('user_id')));
         $rdata = array(
             'status' => TRUE,
             'redirect' => 'settings',

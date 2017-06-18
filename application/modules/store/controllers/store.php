@@ -21,49 +21,43 @@ class Store extends MX_Controller {
         $this->load->model("store/store_model");
     }
 
-    public function my($name)
-    {
+    public function my($name) {
         $store = $this->store_model->getStore($name);
-        if($store){
+        if ($store) {
             $data = array(
                 'web_title' => TITLE,
                 'store_name' => $name
-                );
+            );
             $this->template->load('master_member', 'store/member/index', $data);
-        }else{
+        } else {
             $data = array(
-                'web_title' => 'Not found store :'.TITLE
-                );
+                'web_title' => 'Not found store :' . TITLE
+            );
             $this->template->load('master', 'store/notfound_store', $data);
         }
-        
     }
 
-    public function aboutus($name)
-    {
+    public function aboutus($name) {
         $data = array(
-            'web_title' => TITLE,
-            'store_name' => $name
-            );
+            'web_title' => 'เกี่ยวกับเรา',
+            'long_desc' => $this->store_model->get_aboutus($name)
+        );
         $this->template->load('master_member', 'store/member/aboutus', $data);
     }
 
-
-    public function contactus($name)
-    {
+    public function contactus($name) {
         $data = array(
-            'web_title' => TITLE,
+            'web_title' => 'ติดต่อเรา',
             'store_name' => $name
-            );
+        );
         $this->template->load('master_member', 'store/member/contactus', $data);
     }
 
-    public function cart($name)
-    {
+    public function cart($name) {
         $data = array(
-            'web_title' => TITLE,
+            'web_title' => 'ตะกร้าสินค้า',
             'store_name' => $name
-            );
+        );
         $this->template->load('master_member', 'store/member/cart', $data);
     }
 

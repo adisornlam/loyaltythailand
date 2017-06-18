@@ -108,11 +108,19 @@ class Store_model extends CI_Model {
     //function
     function get_store_name() {
         $user_id = $this->ion_auth->user()->row()->id;
-        $query = $this->db->get_where('users', array('id' => $user_id));
+
+        $this->db->select('users.code_member, config_website.storename');
+        $this->db->from('users');
+        $this->db->join("config_website", "config_website.user_id=users.id");
+        $this->db->where('users.id', $user_id);
+        $this->db->where('users.active', 1);
+        $this->db->where('users.deleted_at', NULL);
+        $query = $this->db->get();
+
         $row = $query->row();
-        if($row->storename){
+        if ($row->storename) {
             $str = $row->storename;
-        }else{
+        } else {
             $str = $row->code_member;
         }
         return $str;

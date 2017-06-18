@@ -27,31 +27,43 @@ class Settings extends MX_Controller {
     public function index() {
 
         $data = array(
-            'title' => 'Config : '.TITLE,
-            'title_page'=>'Config',
-            'item' => $this->Settings_model->get_item(1)
-            );
+            'title' => 'Config : ' . TITLE,
+            'title_page' => 'Config',
+            'item' => $this->Settings_model->get_item()
+        );
         if ($this->ion_auth->is_admin()) {
             $this->template->load('master', 'settings/setting/admin/index', $data);
         } elseif ($this->ion_auth->in_group('owner')) {
             $this->template->load('master', 'settings/setting/owner/index', $data);
-        }else{
+        } elseif ($this->ion_auth->in_group('store')) {
+            $this->template->load('master', 'settings/setting/store/general', $data);
+        } else {
             $this->template->load('master', 'templates/not_permission', $data);
         }
     }
 
-    public function backupdb(){
-        $fileName = date('Ymd').'_mybackup.gz';
-        $this->load->dbutil();
+    public function save() {
 
-        $backup = $this->dbutil->backup();
+        if ($this->uri->segment(3) == 'add') {
+            $rs = $this->Settings_model->add_save();
+        } else if ($this->uri->segment(3) == 'edit') {
+            $rs = $this->Settings_model->edit_save();
+        } else if ($this->uri->segment(3) == 'delete') {
+            $rs = $this->Settings_model->delete_save();
+        } else {
+            $rs = array();
+        }
 
-        $this->load->helper('file');
-        //write_file('/downloads/'.$fileName, $backup);
-
-        //$this->load->helper('download');
-        //force_download('mybackup.gz', $backup);
-        echo $fileName;
+        $data = array(
+            'error' => array(
+                'status' => $rs['status'],
+                'redirect' => (isset($rs['redirect']) ? $rs['redirect'] : 0),
+                'message' => (isset($rs['message']) ? $rs['message'] : 0),
+                'message_info' => (isset($rs['message_info']) ? $rs['message_info'] : 0),
+                'id' => (isset($rs['id']) ? $rs['id'] : 0),
+            )
+        );
+        echo json_encode($data);
     }
 
 }

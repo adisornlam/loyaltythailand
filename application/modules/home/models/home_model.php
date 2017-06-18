@@ -36,6 +36,11 @@ class Home_model extends CI_Model {
         $uer_id = $this->db->insert_id();
         $this->db->insert('users_groups', array('user_id' => $uer_id, 'group_id' => 3));
 
+        $data2 = array(
+            'user_id' => $uer_id
+        );
+        $this->db->insert('config_website', $data2);
+
         $this->ion_auth->login($this->input->post('email'), $this->input->post('password'), 1);
 
         $rdata = array(
