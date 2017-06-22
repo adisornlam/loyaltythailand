@@ -27,38 +27,46 @@ class Store extends MX_Controller {
             $data = array(
                 'web_title' => TITLE,
                 'store_name' => $name
-            );
-            $this->template->load('master_member', 'store/member/index', $data);
+                );
+            $this->template->load('master_store', 'store/member/index', $data);
         } else {
             $data = array(
                 'web_title' => 'Not found store :' . TITLE
-            );
-            $this->template->load('master', 'store/notfound_store', $data);
+                );
+            $this->template->load('master_store', 'store/notfound_store', $data);
         }
     }
 
     public function aboutus($name) {
         $data = array(
             'web_title' => 'เกี่ยวกับเรา',
-            'long_desc' => $this->store_model->get_aboutus($name)
-        );
-        $this->template->load('master_member', 'store/member/aboutus', $data);
+            'long_desc' => $this->store_model->get_page_static($name, $this->uri->segment(2))
+            );
+        $this->template->load('master_store', 'store/aboutus', $data);
     }
 
     public function contactus($name) {
         $data = array(
             'web_title' => 'ติดต่อเรา',
-            'store_name' => $name
-        );
-        $this->template->load('master_member', 'store/member/contactus', $data);
+            'long_desc' => $this->store_model->get_page_static($name, $this->uri->segment(2))
+            );
+        $this->template->load('master_store', 'store/contactus', $data);
     }
 
     public function cart($name) {
         $data = array(
             'web_title' => 'ตะกร้าสินค้า',
             'store_name' => $name
-        );
-        $this->template->load('master_member', 'store/member/cart', $data);
+            );
+        $this->template->load('master_store', 'store/cart', $data);
+    }
+
+    public function login() {
+        $data = array(
+            'title_web' => 'เข้าสู่ระบบ',
+            'title_page' => 'เข้าสู่ระบบ',
+            );
+        $this->template->load('master_store', 'store/login', $data);
     }
 
 }

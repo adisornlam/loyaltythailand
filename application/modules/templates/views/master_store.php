@@ -4,7 +4,8 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="">
+        <meta name="description" content="<?php echo (isset($description) ? $description : ''); ?>">
+        <meta name="keywords" content="<?php echo (isset($keywords) ? $keywords : ''); ?>">
         <meta name="author" content="">
         <link rel="icon" href="<?php echo base_url(); ?>loyalty_fav.ico">
         <title><?php echo (isset($title_web) ? $title_web : TITLE); ?></title>
@@ -45,15 +46,15 @@
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li class="<?php echo ($this->uri->segment(2) == '' ? 'active' : ''); ?>"><a href="<?php echo base_url() . index_page(); ?>">หน้าหลัก</a></li>
-                        <li class="<?php echo ($this->uri->segment(2) == 'aboutus' ? 'active' : ''); ?>"><a href="<?php echo base_url() . index_page(); ?>home/aboutus">เกี่ยวกับเรา</a></li>
-                        <li class="<?php echo ($this->uri->segment(2) == 'contactus' ? 'active' : ''); ?>"><a href="<?php echo base_url() . index_page(); ?>home/contactus">ติดต่อเรา</a></li>
+                        <li class="<?php echo ($this->uri->segment(2) == '' ? 'active' : ''); ?>"><a href="<?php echo site_url(); ?>store/my/<?php echo $this->uri->segment(3); ?>">หน้าหลัก</a></li>
+                        <li class="<?php echo ($this->uri->segment(2) == 'aboutus' ? 'active' : ''); ?>"><a href="<?php echo site_url(); ?>store/aboutus/<?php echo $this->uri->segment(3); ?>">เกี่ยวกับเรา</a></li>
+                        <li class="<?php echo ($this->uri->segment(2) == 'contactus' ? 'active' : ''); ?>"><a href="<?php echo site_url(); ?>store/contactus/<?php echo $this->uri->segment(3); ?>">ติดต่อเรา</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <?php if ($this->session->userdata('logged_in')) { ?>
                             <li><a href="<?php echo site_url(); ?>users/profile">ข้อมูลส่วนตัว</a></li>
                         <?php } else { ?>
-                            <li><a href="<?php echo site_url(); ?>home/login/">เข้าสู่ระบบ</a></li>
+                            <li><a href="<?php echo site_url(); ?>store/login/<?php echo $this->uri->segment(3); ?>">เข้าสู่ระบบ</a></li>
                         <?php } ?>
                     </ul>
                 </div>
