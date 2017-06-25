@@ -21,89 +21,58 @@ class Category extends MX_Controller {
         if (!$this->ion_auth->logged_in()) {
             redirect('backend/login', 'refresh');
         }
-    }
-
-    public function get_sub() {
         $this->load->model('products/Category_model');
-        $cat = $this->Category_model->get_sub($this->uri->segment(5));
-        echo json_encode($cat);
     }
 
     public function index() {
+        $data = array(
+            'title_page' => 'Category'
+        );
         if ($this->ion_auth->is_admin()) {
-            $data = array(
-                'title' => 'Category : E-Office System Management 2014'
-            );
-            $this->template->load('backend/master', 'products/backend/category/admin/category_index', $data);
-        } elseif ($this->ion_auth->in_group('owner')) {
-            $data = array(
-                'title' => 'หมวดหมู่'
-            );
-            $this->template->load('backend/master', 'products/backend/category/owner/category_index', $data);
+            $this->template->load('master', 'products/admin/category/index', $data);
+        } elseif ($this->ion_auth->in_group('store')) {
+            $this->template->load('master', 'products/store/category/index', $data);
         }
     }
 
-    public function sub() {
-        if ($this->ion_auth->is_admin()) {
-            $data = array(
-                'title' => 'Sub Category : E-Office System Management 2014',
-                'breadcrumbs' => array(
-                    'Category Overview' => 'products/backend/category',
-                    'Category Sub' => '#'
-                )
-            );
-            $this->template->load('backend/master', 'products/backend/category/admin/category_sub', $data);
-        } elseif ($this->ion_auth->in_group('owner')) {
-            $this->load->model('products/Category_owner_model');
-            $rs = $this->Category_owner_model->get_view($this->uri->segment(5));
-            $data = array(
-                'title' => 'รายการหมวดหมู่',
-                'breadcrumbs' => array(
-                    'หมวดหมู่' => 'products/backend/category',
-                    $rs->title => '#'
-                )
-            );
-            $this->template->load('backend/master', 'products/backend/category/owner/category_sub', $data);
-        }
+    function listall() {
+        echo $this->Category_model->listall();
     }
 
     public function add() {
-        $this->load->view('products/backend/category/owner/category_add');
+        $this->load->view('products/store/category/add');
     }
 
     public function edit() {
-        $this->load->model('products/Category_owner_model');
-        $rs = $this->Category_owner_model->get_view($this->uri->segment(6));
+        $cat_id = $this->uri->segment(4);
+        $item = $this->Category_model->get_item($cat_id);
         $data = array(
-            'item' => $rs
+            'item' => $item
         );
-        $this->load->view('products/backend/category/owner/category_edit', $data);
+        $this->load->view('products/store/category/edit', $data);
     }
 
-    public function move() {
-        $this->load->model('products/Category_model', 'category');
-        $rs = $this->category->get_category();
-        $data = array(
-            'result' => $rs
-        );
-        $this->load->view('products/backend/category/admin/category_move', $data);
-    }
-
-    public function get_spec_html() {
-        $this->db->select('*');
-        $this->db->from('stk_prod_spec');
-        $query = $this->db->get();
-        if ($query->num_rows() > 0) {
-            $row = $query->result_array();
-            for ($i = 0; $i <= 20; $i++) {
-                $code = str_pad($i, 2, "0", STR_PAD_LEFT);
-                $label = $row['prod_spec_' . $code . '_label'];
-                echo "<tr>";
-                echo "<td>" . $label . "</td>";
-                echo "<td>&nbsp;</td>";
-                echo "</tr>";
-            }
+    public function save() {
+        if ($this->uri->segment(4) == 'add') {
+            $rs = $this->Category_model->add_save();
+        } else if ($this->uri->segment(4) == 'edit') {
+            $rs = $this->Category_model->edit_save();
+        } else if ($this->uri->segment(4) == 'delete') {
+            $rs = $this->Category_model->delete_save();
+        } else {
+            $rs = array();
         }
+
+        $data = array(
+            'error' => array(
+                'status' => $rs['status'],
+                'redirect' => (isset($rs['redirect']) ? $rs['redirect'] : 0),
+                'message' => (isset($rs['message']) ? $rs['message'] : 0),
+                'message_info' => (isset($rs['message_info']) ? $rs['message_info'] : 0),
+                'id' => (isset($rs['id']) ? $rs['id'] : 0),
+            )
+        );
+        echo json_encode($data);
     }
 
 }
