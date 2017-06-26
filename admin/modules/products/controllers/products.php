@@ -23,6 +23,8 @@ class Products extends MX_Controller {
         }
         $this->load->model('products/Products_model');
         $this->load->model('products/Category_model');
+
+        $this->load->helper('products/useful');
     }
 
     public function index() {
@@ -84,8 +86,19 @@ class Products extends MX_Controller {
         } else {
             $file = NULL;
             if (!empty($_FILES['cover_img']['tmp_name'])) {
-                if ($this->upload->do_upload('photo')) {
-                    $file = array('upload_data' => $this->upload->data());
+                if ($this->upload->do_upload('cover_img')) {
+                    $image_data = $this->upload->data();
+                    $config['image_library'] = 'gd2';
+                    $config['source_image'] = $image_data['full_path'];
+                    $config['maintain_ratio'] = TRUE;
+                    $config['create_thumb'] = TRUE;
+                    $config['width'] = 250;
+                    $config['height'] = 250;
+                    $this->load->library('image_lib', $config);
+                    if (!$this->image_lib->resize()) {
+                        $this->handle_error($this->image_lib->display_errors());
+                    }
+                    $file = array('upload_data' => $image_data);
                 }
             }
             $rs = $this->Products_model->add_save($file);
@@ -103,48 +116,124 @@ class Products extends MX_Controller {
     }
 
     public function edit() {
-        $this->load->model('products/Category_model');
-        $rs = $this->Products_owner_model->get_view($this->uri->segment(5));
         $data = array(
-            'title' => 'เพิ่มสินค้า',
+            'title_page' => 'แก้ไขสินค้า',
             'breadcrumbs' => array(
-                'รายการสินค้า' => 'products/backend/product',
-                'แก้ไขสินค้า' => '#'
+                'รายการสินค้า' => 'products',
+                'เพิ่มสินค้า' => '#'
             ),
-            'item' => $rs,
-            'category' => $this->Category_owner_model->get_ddl(FALSE),
-            'cat_root_id' => $this->Category_model->get_sub_id($rs->cat_id)
+            'item' => $this->Products_model->get_item($this->uri->segment(3)),
+            'ddl_cat' => $this->Category_model->get_ddl()
         );
-        $this->template->load('backend/master', 'products/backend/product/owner/product_edit', $data);
+        $this->template->load('master', 'products/store/product/edit', $data);
     }
 
-    public function import() {
-        $this->load->model('products/Category_owner_model');
-        $data = array(
-            'category' => $this->Category_owner_model->get_ddl()
+    public function edit_save() {
+        $this->load->library('form_validation');
+        $this->load->helper('directory');
+
+        $upload_config = array(
+            'upload_path' => 'uploads/products/' . date('Ymd') . '/',
+            'allowed_types' => 'jpg|jpeg|png',
+            'file_name' => time()
         );
-        $this->load->view('products/backend/product/owner/product_import', $data);
+        $this->load->library('upload', $upload_config);
+        $dir_exist = true;
+        if (!is_dir($upload_config['upload_path'])) {
+            mkdir($upload_config['upload_path'], 0777, true);
+            $dir_exist = false;
+        }
+        $this->form_validation->set_rules('title', 'ชื่อสินค้า', 'required');
+        $this->form_validation->set_rules('code_no', 'รหัสสินค้า', 'required');
+        $this->form_validation->set_error_delimiters('<div class="alert alert-danger">', '</div>');
+        if ($this->form_validation->run() == FALSE) {
+            $data = array(
+                'error' => array(
+                    'status' => FALSE,
+                    'message' => $this->form_validation->getErrorsArray(),
+                ), 400);
+            echo json_encode($data);
+        } else {
+            $file = NULL;
+            if (!empty($_FILES['cover_img']['tmp_name'])) {
+                if ($this->upload->do_upload('cover_img')) {
+                    $image_data = $this->upload->data();
+                    $config['image_library'] = 'gd2';
+                    $config['source_image'] = $image_data['full_path'];
+                    $config['maintain_ratio'] = TRUE;
+                    $config['create_thumb'] = TRUE;
+                    $config['width'] = 250;
+                    $config['height'] = 250;
+                    $this->load->library('image_lib', $config);
+                    if (!$this->image_lib->resize()) {
+                        $this->handle_error($this->image_lib->display_errors());
+                    }
+                    $file = array('upload_data' => $image_data);
+                }
+            } else {
+                $file = $this->input->post("cover_img_hidden");
+            }
+            $rs = $this->Products_model->edit_save($file);
+            $data = array(
+                'error' => array(
+                    'status' => $rs['status'],
+                    'redirect' => (isset($rs['redirect']) ? $rs['redirect'] : 0),
+                    'message' => (isset($rs['message']) ? $rs['message'] : 0),
+                    'message_info' => (isset($rs['message_info']) ? $rs['message_info'] : 0),
+                    'id' => (isset($rs['id']) ? $rs['id'] : 0),
+                )
+            );
+            echo json_encode($data);
+        }
     }
 
-    public function import_add() {
-        $data = array(
-            'title' => 'รายการสินค้านำเข้าไฟล์',
-            'breadcrumbs' => array(
-                'รายการสินค้า' => 'products/backend/product',
-                'รายการสินค้านำเข้าไฟล์' => '#'
-            )
-        );
-        $this->template->load('backend/master', 'products/backend/product/owner/product_import_add', $data);
-    }
-
-    public function spec() {
-        $this->load->model('products/Category_model');
-        $data = array(
-            'item' => $this->Products_model->get_edit($this->uri->segment(5)),
-            'prod_spec' => $this->Products_model->get_spec_html($this->uri->segment(5)),
-            'product_gallery' => $this->Products_model->get_galler($this->uri->segment(5))
-        );
-        $this->load->view('products/backend/shared/product_spec_detail', $data);
+    public function index2() {
+        if ($this->input->post('image_upload')) {
+            $upload_path = './upload/';
+            $config['upload_path'] = $upload_path;
+            $config['allowed_types'] = 'jpg|png|gif';
+            $config['max_size'] = '0';
+            $config['max_filename'] = '255';
+            $config['encrypt_name'] = TRUE;
+            $image_data = array();
+            $is_file_error = FALSE;
+            if (!$_FILES) {
+                $is_file_error = TRUE;
+                $this->handle_error('Select an image file.');
+            }
+            if (!$is_file_error) {
+                $this->load->library('upload', $config);
+                if (!$this->upload->do_upload('image_name')) {
+                    $this->handle_error($this->upload->display_errors());
+                    $is_file_error = TRUE;
+                } else {
+                    $image_data = $this->upload->data();
+                    $config['image_library'] = 'gd2';
+                    $config['source_image'] = $image_data['full_path'];
+                    $config['maintain_ratio'] = TRUE;
+                    $config['width'] = 150;
+                    $config['height'] = 100;
+                    $this->load->library('image_lib', $config);
+                    if (!$this->image_lib->resize()) {
+                        $this->handle_error($this->image_lib->display_errors());
+                    }
+                }
+            }
+            if ($is_file_error) {
+                if ($image_data) {
+                    $file = $upload_path . $image_data['file_name'];
+                    if (file_exists($file)) {
+                        unlink($file);
+                    }
+                }
+            } else {
+                $data['resize_img'] = $upload_path . $image_data['file_name'];
+                $this->handle_success('Image was successfully uploaded to direcoty <strong>' . $upload_path . '</strong> and resized.');
+            }
+        }
+        $data['errors'] = $this->error;
+        $data['success'] = $this->success;
+        return $data;
     }
 
 }

@@ -64,10 +64,12 @@ class Products_model extends CI_Model {
             'stock' => trim($this->input->post('stock')),
             'unit_price' => trim($this->input->post('unit_price')),
             'point' => trim($this->input->post('point')),
-            'cover_img' => (isset($param['upload_data']['file_name']) ? 'uploads/products/' . date('Ymd') . '/' . $param['upload_data']['file_name'] : NULL),
+            'cover_img' => (isset($param['upload_data']['file_name']) ? $param['upload_data']['file_name'] : NULL),
+            'cover_img_thumb' => (isset($param['upload_data']['file_name']) ? create_thumb($param['upload_data']['file_name']) : NULL),
+            'cover_img_path' => 'uploads/products/' . date('Ymd') . '/',
             'description' => trim($this->input->post('description')),
             'keywords' => trim($this->input->post('keywords')),
-            'disabled' => ($this->input->post('disabled', TRUE) ? 0 : 1),
+            'disabled' => ($this->input->post('disabled', TRUE) ? 1 : 0),
             'created_at' => date("Y-m-d H:i:s")
         );
 
@@ -84,6 +86,51 @@ class Products_model extends CI_Model {
         );
 
         return $rdata;
+    }
+
+    public function edit_save($param) {
+        $user_id = $this->ion_auth->user()->row()->id;
+        $data = array(
+            'code_no' => trim($this->input->post('code_no')),
+            'title' => trim($this->input->post('title')),
+            'desc_short' => $this->input->post('desc_short'),
+            'desc_long' => $this->input->post('desc_long'),
+            'stock' => trim($this->input->post('stock')),
+            'unit_price' => trim($this->input->post('unit_price')),
+            'point' => trim($this->input->post('point')),
+            'cover_img' => (isset($param['upload_data']['file_name']) ? $param['upload_data']['file_name'] : $this->input->post('cover_img_hidden')),
+            'cover_img_thumb' => (isset($param['upload_data']['file_name']) ? create_thumb($param['upload_data']['file_name']) : $this->input->post('cover_img_hidden')),
+            'cover_img_path' => 'uploads/products/' . date('Ymd') . '/',
+            'description' => trim($this->input->post('description')),
+            'keywords' => trim($this->input->post('keywords')),
+            'disabled' => ($this->input->post('disabled', TRUE) ? 1 : 0),
+            'updated_at' => date("Y-m-d H:i:s")
+        );
+
+        $id = $this->input->post("id");
+        $this->db->update('product_item', $data, array("id" => $id));
+
+        $this->db->update('product_categories', array('cat_id' => $this->input->post('cat_id')), array('product_id' => $id));
+
+        $rdata = array(
+            'status' => TRUE,
+            'redirect' => 'products/edit/' . $id,
+            'message_info' => 'Save Successfully.'
+        );
+
+        return $rdata;
+    }
+
+    function get_item($id) {
+        $this->db->select("product_item.*, product_categories.cat_id, users_products.user_id");
+        $this->db->from("product_item");
+        $this->db->join("product_categories", "product_item.id = product_categories.product_id");
+        $this->db->join("users_products", "product_item.id = users_products.product_id");
+        $this->db->where("product_item.disabled", 1);
+        $this->db->where("product_item.deleted_at", NULL);
+        $this->db->where("product_item.id", $id);
+        $query = $this->db->get();
+        return $query->row();
     }
 
 }
