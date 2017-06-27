@@ -18,7 +18,7 @@ class Store_model extends CI_Model {
     }
 
     // add, update, delete
-    public function getStore($name) {
+    public function get_store($name) {
         $this->db->select('*');
         $this->db->from('users');
         $this->db->join("config_website", "config_website.user_id=users.id");
@@ -31,6 +31,19 @@ class Store_model extends CI_Model {
             return true;
         }
         return false;
+    }
+
+    function get_product_list($store_name) {
+        $this->db->select("product_item.*, product_categories.cat_id, users_products.user_id");
+        $this->db->from("product_item");
+        $this->db->join("product_categories", "product_item.id = product_categories.product_id");
+        $this->db->join("users_products", "product_item.id = users_products.product_id");
+        $this->db->join("config_website", "config_website.user_id = users_products.user_id");
+        $this->db->where("product_item.disabled", 1);
+        $this->db->where("product_item.deleted_at", NULL);
+        $this->db->where("config_website.storename", $store_name);
+        $query = $this->db->get();
+        return $query;
     }
 
     function get_aboutus($store_name) {
