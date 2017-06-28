@@ -19,3 +19,8 @@
         </div>
     <?php } ?>
 </div>
+<div class="clear pagination">
+    <ul>
+        <?php echo $pagination_helper->create_links(); ?>
+    </ul>    
+</div>

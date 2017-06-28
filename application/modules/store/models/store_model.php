@@ -33,7 +33,21 @@ class Store_model extends CI_Model {
         return false;
     }
 
-    function get_product_list($store_name) {
+    function get_product_list($store_name, $ofset, $per_page) {
+        $this->db->select("product_item.*, product_categories.cat_id, users_products.user_id");
+        $this->db->from("product_item");
+        $this->db->join("product_categories", "product_item.id = product_categories.product_id");
+        $this->db->join("users_products", "product_item.id = users_products.product_id");
+        $this->db->join("config_website", "config_website.user_id = users_products.user_id");
+        $this->db->where("product_item.disabled", 1);
+        $this->db->where("product_item.deleted_at", NULL);
+        $this->db->where("config_website.storename", $store_name);
+        $this->db->limit($per_page, $ofset);
+        $query = $this->db->get();
+        return $query;
+    }
+
+    function count_product_list($store_name) {
         $this->db->select("product_item.*, product_categories.cat_id, users_products.user_id");
         $this->db->from("product_item");
         $this->db->join("product_categories", "product_item.id = product_categories.product_id");
@@ -43,7 +57,7 @@ class Store_model extends CI_Model {
         $this->db->where("product_item.deleted_at", NULL);
         $this->db->where("config_website.storename", $store_name);
         $query = $this->db->get();
-        return $query;
+        return $query->num_rows();
     }
 
     function get_aboutus($store_name) {
@@ -82,6 +96,12 @@ class Store_model extends CI_Model {
         $query = $this->db->get();
         $row = $query->row();
         return $row->long_desc;
+    }
+
+    function get_logo_text($storename) {
+        $query = $this->db->get_where("config_website", array("storename" => $storename));
+        $row = $query->row();
+        return $row->logo_text;
     }
 
 }

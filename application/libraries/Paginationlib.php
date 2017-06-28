@@ -20,8 +20,8 @@ class Paginationlib {
     }
 
     public function initPagination($base_url, $total_rows) {
-        $config['per_page'] = 1;
-        $config['uri_segment'] = 3;
+        $config['per_page'] = 6;
+        $config['uri_segment'] = 4;
         $config['base_url'] = base_url() . $base_url;
         $config['total_rows'] = $total_rows;
         $config['use_page_numbers'] = TRUE;
