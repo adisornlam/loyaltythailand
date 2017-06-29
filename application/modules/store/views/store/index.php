@@ -11,7 +11,7 @@
                             <p class="lead">ราคา <?php echo number_format($item_product->unit_price); ?> บาท <br /><i class="fa fa-star" aria-hidden="true"></i> <?php echo $item_product->point; ?> แต้ม</p>
                         </div>
                         <div class="col-xs-6 col-md-6 text-right">
-                            <a class="btn btn-success" href="<?php echo site_url(); ?>store/add_card/prasit/<?php echo $item_product->id; ?>"><i class="fa fa-cart-plus fa-2x" aria-hidden="true"></i></a>
+                            <a class="btn btn-success" href="<?php echo site_url(); ?>store/add_cart/prasit/<?php echo $item_product->id; ?>"><i class="fa fa-cart-plus fa-2x" aria-hidden="true"></i></a>
                         </div>
                     </div>
                 </div>
@@ -19,8 +19,6 @@
         </div>
     <?php } ?>
 </div>
-<div class="clear pagination">
-    <ul>
-        <?php echo $pagination_helper->create_links(); ?>
-    </ul>    
+<div class="text-center">
+    <?php echo $pagination_helper->create_links(); ?>
 </div>

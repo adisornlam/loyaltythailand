@@ -25,14 +25,15 @@ class Store extends MX_Controller {
         $this->load->library('pagination');
         $this->load->library('paginationlib');
 
-        
+
         $product_count = $this->store_model->count_product_list($name);
         $pagingConfig = $this->paginationlib->initPagination(index_page() . "store/my/" . $this->uri->segment(3), $product_count);
         $page = ($this->uri->segment($pagingConfig['uri_segment']) != "" ? $this->uri->segment($pagingConfig['uri_segment']) : 1);
 
         if ($name) {
             $data = array(
-                'web_title' => TITLE,
+                'title_web' => TITLE,
+                'title_page' => TITLE,
                 'logo_text' => $this->store_model->get_logo_text($this->uri->segment(3)),
                 'result_product' => $this->store_model->get_product_list($name, (($page - 1) * $pagingConfig['per_page']), $pagingConfig['per_page']),
                 'pagination_helper' => $this->pagination
@@ -40,7 +41,7 @@ class Store extends MX_Controller {
             $this->template->load('master_store', 'store/store/index', $data);
         } else {
             $data = array(
-                'web_title' => 'Not found store :' . TITLE
+                'title_page' => 'Not found store :' . TITLE
             );
             $this->template->load('master_store', 'store/notfound_store', $data);
         }
@@ -48,7 +49,7 @@ class Store extends MX_Controller {
 
     public function aboutus($name) {
         $data = array(
-            'web_title' => 'เกี่ยวกับเรา',
+            'title_page' => 'เกี่ยวกับเรา',
             'logo_text' => $this->store_model->get_logo_text($this->uri->segment(3)),
             'long_desc' => $this->store_model->get_page_static($name, $this->uri->segment(2))
         );
@@ -57,7 +58,7 @@ class Store extends MX_Controller {
 
     public function contactus($name) {
         $data = array(
-            'web_title' => 'ติดต่อเรา',
+            'title_page' => 'ติดต่อเรา',
             'logo_text' => $this->store_model->get_logo_text($this->uri->segment(3)),
             'long_desc' => $this->store_model->get_page_static($name, $this->uri->segment(2))
         );
@@ -65,11 +66,30 @@ class Store extends MX_Controller {
     }
 
     public function cart($name) {
+        $this->load->library('cart');
         $data = array(
-            'web_title' => 'ตะกร้าสินค้า',
+            'title_web' => 'ตะกร้าสินค้า',
+            'title_page' => 'ตะกร้าสินค้า',
             'logo_text' => $this->store_model->get_logo_text($this->uri->segment(3))
         );
         $this->template->load('master_store', 'store/store/cart', $data);
+    }
+
+    public function add_cart($name) {
+        $this->load->library('cart');
+        $this->load->model("products/Products_model");
+
+        $item = $this->Products_model->get_item($this->uri->segment(4));
+
+        $insert_data = array(
+            'id' => $item->id,
+            'name' => $item->title,
+            'price' => $item->unit_price,
+            'qty' => 1
+        );
+
+        $this->cart->insert($insert_data);
+        redirect('store/cart/' . $name);
     }
 
     public function login() {
