@@ -11,6 +11,12 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <?php echo form_label('Logo Name', 'logo_text', array('class' => 'col-sm-2 control-label')); ?>
+                        <div class="col-sm-4">
+                            <?php echo form_input('logo_text', $item->logo_text, 'class="form-control"'); ?>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <?php echo form_label('Title Web site', 'site_name', array('class' => 'col-sm-2 control-label')); ?>
                         <div class="col-sm-6">
                             <?php echo form_input('site_name', $item->site_name, 'class="form-control"'); ?>

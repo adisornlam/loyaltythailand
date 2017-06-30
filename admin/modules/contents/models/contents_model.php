@@ -47,6 +47,18 @@ class Contents_model extends CI_Model {
 
     function get_static_item($code_no = 'aboutus') {
         $user_id = (int) $this->ion_auth->get_user_id();
+        $this->db->select("*");
+        $this->db->from("contents");
+        $this->db->join("categories", "contents.cat_id = categories.id");
+        $this->db->join("contents_group", "contents_group.id = contents.group_id");
+        $this->db->where("contents.user_id", $user_id);
+        $this->db->where("contents_group.code_no", $code_no);
+        $query_count = $this->db->get();
+        if ($query_count->num_rows() <= 0) {
+            $row_group = $this->db->get_where("contents_group", array("code_no" => $code_no))->first_row();
+            $data = array("cat_id" => 2, "group_id" => $row_group->id, "user_id" => $user_id, "title" => $row_group->title, "created_at" => date("Y-m-d H:i:s"));
+            $this->db->insert("contents", $data);
+        }
         $this->db->select("contents.id, contents.long_desc,contents.description, contents.keywords");
         $this->db->from("contents");
         $this->db->join("categories", "contents.cat_id = categories.id");
@@ -54,11 +66,6 @@ class Contents_model extends CI_Model {
         $this->db->where("contents.user_id", $user_id);
         $this->db->where("contents_group.code_no", $code_no);
         $query = $this->db->get();
-        if ($query->num_rows() <= 0) {
-            $row_group = $this->db->get_where("contents_group", array("code_no" => $code_no))->first_row();
-            $data = array("cat_id" => 2, "group_id" => $row_group->id, "user_id" => $user_id, "title" => $row_group->title, "created_at" => date("Y-m-d H:i:s"));
-            $this->db->insert("contents", $data);
-        }
         return $query->row();
     }
 

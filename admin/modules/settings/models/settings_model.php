@@ -26,6 +26,7 @@ class Settings_model extends CI_Model {
     function edit_save() {
         $data = array(
             'storename' => trim($this->input->post('storename')),
+            'logo_text' => trim($this->input->post('logo_text')),
             'site_name' => trim($this->input->post('site_name')),
             'keywords' => trim($this->input->post('keywords')),
             'description' => trim($this->input->post('description'))
