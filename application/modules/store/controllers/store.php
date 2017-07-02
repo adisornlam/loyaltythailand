@@ -33,7 +33,7 @@ class Store extends MX_Controller {
         if ($name) {
             $data = array(
                 'title_web' => TITLE,
-                'title_page' => TITLE,
+                'title_page' => 'รายการสินค้า',
                 'logo_text' => $this->store_model->get_logo_text($this->uri->segment(3)),
                 'result_product' => $this->store_model->get_product_list($name, (($page - 1) * $pagingConfig['per_page']), $pagingConfig['per_page']),
                 'pagination_helper' => $this->pagination
@@ -66,7 +66,6 @@ class Store extends MX_Controller {
     }
 
     public function cart($name) {
-        $this->load->library('cart');
         $data = array(
             'title_web' => 'ตะกร้าสินค้า',
             'title_page' => 'ตะกร้าสินค้า',
@@ -76,7 +75,6 @@ class Store extends MX_Controller {
     }
 
     public function add_cart($name) {
-        $this->load->library('cart');
         $this->load->model("products/Products_model");
 
         $item = $this->Products_model->get_item($this->uri->segment(4));
@@ -85,11 +83,47 @@ class Store extends MX_Controller {
             'id' => $item->id,
             'name' => $item->title,
             'price' => $item->unit_price,
+            'img' => $item->cover_img_thumb,
+            'img_path' => $item->cover_img_path,
             'qty' => 1
         );
 
         $this->cart->insert($insert_data);
         redirect('store/cart/' . $name);
+    }
+
+    function remove_cart($storename, $rowid) {
+        if ($rowid === "all") {
+            $this->cart->destroy();
+        } else {
+            $data = array(
+                'rowid' => $rowid,
+                'qty' => 0
+            );
+            $this->cart->update($data);
+        }
+        redirect('store/cart/' . $storename);
+    }
+
+    function update_cart($storename) {
+        $this->load->library('cart');
+        $cart_info = $_POST['cart'];
+        foreach ($cart_info as $id => $cart) {
+            $rowid = $cart['rowid'];
+            $price = $cart['price'];
+            $amount = $price * $cart['qty'];
+            $qty = $cart['qty'];
+
+            $data = array(
+                'rowid' => $rowid,
+                'price' => $price,
+                'amount' => $amount,
+                'qty' => $qty
+            );
+
+            $this->cart->update($data);
+        }
+        redirect('store/cart/' . $storename);
     }
 
     public function login() {

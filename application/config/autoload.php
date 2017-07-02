@@ -55,7 +55,7 @@ $autoload['packages'] = array();
   |	$autoload['libraries'] = array('database', 'session', 'xmlrpc');
  */
 
-$autoload['libraries'] = array('database', 'session', 'template', 'ion_auth');
+$autoload['libraries'] = array('database', 'session', 'template', 'ion_auth','cart');
 
 
 /*

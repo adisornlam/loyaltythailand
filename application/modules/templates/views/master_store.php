@@ -54,6 +54,9 @@
                         <?php if ($this->session->userdata('logged_in')) { ?>
                             <li><a href="<?php echo site_url(); ?>users/profile">ข้อมูลส่วนตัว</a></li>
                         <?php } else { ?>
+                            <?php if (count($this->cart->contents()) > 0) { ?>
+                                <li><a href="<?php echo site_url(); ?>store/cart/<?php echo $this->uri->segment(3); ?>"><i class="fa fa-shopping-basket" aria-hidden="true"></i> <span class="badge"><?php echo count($this->cart->contents()); ?></span></a></li>
+                            <?php } ?>
                             <li><a href="<?php echo site_url(); ?>store/login/<?php echo $this->uri->segment(3); ?>">เข้าสู่ระบบ</a></li>
                         <?php } ?>
                     </ul>

@@ -1,3 +1,6 @@
+<div class="page-header">
+  <h3><?php echo $title_page; ?></h3>
+</div>
 <div id="products" class="row list-group">
     <?php foreach ($result_product->result() as $item_product) { ?>
         <div class="item col-sm-12 col-lg-4">
