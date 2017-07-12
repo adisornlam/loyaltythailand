@@ -55,8 +55,8 @@
             },
             "aoColumns": [
                 {"mData": "id", "title": "", "width": "2%", "sClass": "text-center", "orderable": false, "searchable": false},
-                {"mData": "code_no", "title": "Code", "width": "10%", "orderable": false, "searchable": true},
-                {"mData": "product_title", "title": "Title", "width": "60%", "orderable": false, "searchable": true},
+                {"mData": "code_no", "title": "Code", "width": "20%", "orderable": false, "searchable": true},
+                {"mData": "product_title", "title": "Title", "width": "50%", "orderable": false, "searchable": true},
                 {"mData": "unit_price", "title": "Unit Price", "width": "10%", "orderable": false, "searchable": true},
                 {"mData": "disabled", "title": "Active", "width": "5%", "sClass": "text-center", "orderable": false, "searchable": false}
             ],
